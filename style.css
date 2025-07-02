@@ -1,0 +1,101 @@
+/* Existing styles remain as-is... */
+
+#playerCount {
+  margin-top: 1rem;
+  font-weight: bold;
+  color: #FF77A9;
+}
+
+.hidden {
+  display: none;
+}
+
+#startRoundContainer {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+#startRoundBtn {
+  background-color: #FFE6E6;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  color: #333;
+  transition: background 0.3s ease;
+}
+
+#startRoundBtn:hover {
+  background-color: #FFC9DE;
+}
+
+/* Statement Input Form */
+#statementInput {
+  background: #FFF7F1;
+  padding: 2rem;
+  border-radius: 1rem;
+  max-width: 500px;
+  margin: 1rem auto;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+#statementInput h2 {
+  text-align: center;
+  color: #A5D8FF;
+}
+
+#statementInput input[type="text"] {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 1rem;
+  border: 2px solid #FFD3B6;
+}
+
+#statementInput button {
+  width: 100%;
+  padding: 0.75rem;
+  background: #C1FFD7;
+  border: none;
+  border-radius: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#guessingUI {
+  background: #E0F7FA;
+  padding: 2rem;
+  border-radius: 1rem;
+  max-width: 500px;
+  margin: 1rem auto;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+#guessingUI h2 {
+  color: #00B8D4;
+  margin-bottom: 1rem;
+}
+
+#statementsList {
+  list-style: none;
+  padding: 0;
+}
+
+#statementsList li {
+  background: #fff;
+  margin: 0.5rem 0;
+  padding: 1rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: 0.3s;
+}
+
+#statementsList li:hover {
+  border-color: #A5D8FF;
+  background-color: #F0FFFF;
+}

@@ -1,1 +1,68 @@
-<h1>Hello Karya Game</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2 Lies 1 Truth</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Terms Modal -->
+  <div id="termsModal">
+    <div class="terms-box">
+      <h2>Consent Required</h2>
+      <p>This game will record audio based on your answers. By ticking below, you agree to its use for educational and future project purposes.</p>
+      <label><input type="checkbox" id="termsCheck" /> I agree to the recording and usage terms.</label>
+      <br /><br />
+      <button id="startBtn">Continue</button>
+    </div>
+  </div>
+
+  <!-- Character -->
+  <img src="assets/characters/char1.png" class="character-anim" alt="character" />
+
+  <!-- Join UI -->
+  <div class="join-container">
+    <h1 class="game-title">2 Lies 1 Truth 🎭</h1>
+    <form id="joinForm">
+      <input type="text" id="playerName" placeholder="Enter your name" required />
+      <button type="submit">Join Game</button>
+    </form>
+    <p class="note">Each player should join from a separate device</p>
+    <p id="playerCount">Waiting for players...</p>
+  </div>
+
+  <!-- Start Round Button -->
+  <div id="startRoundContainer" class="hidden">
+    <button id="startRoundBtn">Start Round 🎯</button>
+  </div>
+
+  <!-- Statement Input (for round player) -->
+  <div id="statementInput" class="hidden">
+    <h2>Enter 3 Statements</h2>
+    <form id="statementForm">
+      <input type="text" id="s1" placeholder="Statement 1" required />
+      <input type="text" id="s2" placeholder="Statement 2" required />
+      <input type="text" id="s3" placeholder="Statement 3" required />
+      <p>Select which one is true:</p>
+      <label><input type="radio" name="truth" value="1" required /> Statement 1</label><br />
+      <label><input type="radio" name="truth" value="2" /> Statement 2</label><br />
+      <label><input type="radio" name="truth" value="3" /> Statement 3</label><br /><br />
+      <button type="submit">Submit Statements</button>
+    </form>
+  </div>
+
+  <!-- Guessing UI (for other players) -->
+  <div id="guessingUI" class="hidden">
+    <h2>Guess the True Statement</h2>
+    <ul id="statementsList"></ul>
+  </div>
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
+
