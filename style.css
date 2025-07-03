@@ -1,73 +1,32 @@
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: #FFF7F1;
-  margin: 0;
-  padding: 0;
-  text-align: center;
+  background: #f7f2f8;
   color: #333;
+  text-align: center;
+  padding: 1rem;
 }
 
 .game-title {
-  font-size: 2.5rem;
-  margin-top: 2rem;
-  color: #FF77A9;
-  font-weight: 600;
+  font-size: 2rem;
+  color: #8e44ad;
 }
 
-.join-container,
-#statementInput,
-#guessingUI {
-  background: #FFFFFF;
-  padding: 2rem;
-  margin: 2rem auto;
-  max-width: 480px;
-  border-radius: 1.5rem;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
-}
-
-input[type="text"] {
-  width: 100%;
-  padding: 0.8rem;
-  border-radius: 1rem;
-  border: 2px solid #FFB3C6;
-  margin-bottom: 1rem;
+input, button {
+  padding: 10px;
+  margin: 5px;
+  border: none;
+  border-radius: 8px;
   font-size: 1rem;
 }
 
 button {
-  padding: 0.75rem 1.5rem;
-  background: #FFD6E8;
-  border: none;
-  border-radius: 1rem;
-  font-weight: bold;
+  background: #9b59b6;
+  color: white;
   cursor: pointer;
-  transition: background 0.3s;
-  font-size: 1rem;
 }
 
 button:hover {
-  background: #FFAEC8;
-}
-
-#playerCount {
-  margin-top: 1rem;
-  font-weight: bold;
-  color: #FF77A9;
-}
-
-#statementsList li {
-  background: #F0FFFF;
-  border: 2px solid transparent;
-  padding: 1rem;
-  margin: 0.5rem 0;
-  border-radius: 1rem;
-  transition: 0.3s;
-  cursor: pointer;
-}
-
-#statementsList li:hover {
-  border-color: #A5D8FF;
-  background-color: #EAFBFF;
+  background: #8e44ad;
 }
 
 .hidden {
@@ -75,14 +34,12 @@ button:hover {
 }
 
 #termsModal {
-  display: none;
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+  top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(0,0,0,0.6);
+  display: none;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
 }
 
 #termsModal.active {
@@ -90,10 +47,32 @@ button:hover {
 }
 
 .terms-box {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 1rem;
-  max-width: 400px;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+}
+
+.avatar-picker {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.avatar-option {
+  width: 50px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.avatar-option:hover {
+  border-color: #9b59b6;
+}
+
+#scoreList img.avatar {
+  width: 30px;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-right: 8px;
 }

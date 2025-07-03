@@ -2,57 +2,61 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>2 Lies 1 Truth</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bluff Buster</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <!-- Consent Modal -->
   <div id="termsModal">
     <div class="terms-box">
       <h2>🎤 Consent Required</h2>
-      <p>By continuing, you agree to allow voice recording and usage in future projects.</p>
+      <p>By continuing, you agree to voice recording for gameplay and future projects.</p>
       <label><input type="checkbox" id="termsCheck" /> I agree</label><br><br>
       <button id="startBtn">Continue</button>
     </div>
   </div>
 
-  <!-- Game Title -->
-  <h1 class="game-title">2 Lies 1 Truth</h1>
+  <h1 class="game-title">Bluff Buster</h1>
 
   <!-- Join Form -->
   <div class="join-container">
     <form id="joinForm">
       <input type="text" id="playerName" placeholder="Enter your name" required />
+      <div class="avatar-picker">
+        <label><input type="radio" name="avatar" value="avatar1" /><img src="assets/characters/avatar1.png" class="avatar-option" /></label>
+        <label><input type="radio" name="avatar" value="avatar2" /><img src="assets/characters/avatar2.png" class="avatar-option" /></label>
+        <label><input type="radio" name="avatar" value="avatar3" /><img src="assets/characters/avatar3.png" class="avatar-option" /></label>
+      </div>
       <button type="submit">Join Game</button>
     </form>
     <p id="playerCount"></p>
   </div>
 
-  <!-- Start Round Button -->
-  <div id="startRoundContainer" class="hidden">
-    <button id="startRoundBtn">Start Round</button>
+  <!-- Host Controls -->
+  <div id="hostControls" class="hidden">
+    <button id="startRoundBtn">Next Round ▶</button>
   </div>
 
-  <!-- Statement Input UI -->
+  <!-- Statement Input -->
   <div id="statementInput" class="hidden">
     <form id="statementForm">
       <input type="text" id="s1" placeholder="Statement 1" required />
       <input type="text" id="s2" placeholder="Statement 2" required />
       <input type="text" id="s3" placeholder="Statement 3" required />
-      <p>Select which one is TRUE:</p>
+      <p>Select which is TRUE:</p>
       <label><input type="radio" name="truth" value="1" /> 1</label>
       <label><input type="radio" name="truth" value="2" /> 2</label>
       <label><input type="radio" name="truth" value="3" /> 3</label><br><br>
-      <button type="submit">Submit Statements</button>
+      <button type="submit">Submit</button>
     </form>
+    <button id="recordBtn">🎤 Record Voice</button>
+    <audio id="playback" controls style="display:none;"></audio>
   </div>
 
   <!-- Guessing UI -->
   <div id="guessingUI" class="hidden">
-    <h3>Which one do you think is true?</h3>
+    <h3>Guess which is TRUE:</h3>
     <ul id="statementsList"></ul>
   </div>
 
@@ -62,11 +66,9 @@
     <ul id="scoreList"></ul>
   </div>
 
-  <!-- Scripts -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
   <script src="firebase-config.js"></script>
   <script src="script.js"></script>
-
 </body>
 </html>
