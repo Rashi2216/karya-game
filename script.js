@@ -1,121 +1,123 @@
 let playerName = "";
 let playerKey = "";
 
-// Show terms modal first
-document.addEventListener("DOMContentLoaded", function () {
-  const joinForm = document.getElementById("joinForm");
-  const termsModal = document.getElementById("termsModal");
-  const startBtn = document.getElementById("startBtn");
-  const termsCheck = document.getElementById("termsCheck");
-  const character = document.querySelector(".character-anim");
-  const playerCountDisplay = document.getElementById("playerCount");
+window.addEventListener("DOMContentLoaded", () => {
+  const modal = document.getElementById("termsModal");
+  modal.classList.add("active");
 
-  const startRoundBtn = document.getElementById("startRoundBtn");
-  const startRoundContainer = document.getElementById("startRoundContainer");
-  const statementInput = document.getElementById("statementInput");
-  const statementForm = document.getElementById("statementForm");
-  const guessingUI = document.getElementById("guessingUI");
-  const statementsList = document.getElementById("statementsList");
-
-  termsModal.classList.add("show");
-
-  startBtn.addEventListener("click", function () {
-    if (!termsCheck.checked) {
-      alert("Please agree to the terms and conditions to proceed.");
+  document.getElementById("startBtn").addEventListener("click", () => {
+    if (!document.getElementById("termsCheck").checked) {
+      alert("Please agree to the terms to continue.");
       return;
     }
-    termsModal.classList.remove("show");
-    character.classList.add("move");
+    modal.classList.remove("active");
   });
+});
 
-  joinForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-    playerName = document.getElementById("playerName").value.trim();
-    if (!playerName) {
-      alert("Please enter your name to join the game.");
-      return;
-    }
+document.getElementById("joinForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+  playerName = document.getElementById("playerName").value.trim();
+  if (!playerName) return alert("Enter your name");
 
-    const playerRef = db.ref("players").push();
-    playerRef.set({
-      name: playerName,
-      joinedAt: Date.now()
-    });
-    playerKey = playerRef.key;
-
-    alert(`Welcome, ${playerName}! You've joined the game.`);
-    joinForm.reset();
-    document.querySelector(".join-container").style.display = "none";
-    startRoundContainer.classList.remove("hidden");
+  const playerRef = db.ref("players").push();
+  playerRef.set({
+    name: playerName,
+    joinedAt: Date.now(),
+    score: 0
   });
+  playerKey = playerRef.key;
 
-  // Realtime player count
-  db.ref("players").on("value", (snapshot) => {
-    const players = snapshot.val();
-    const count = players ? Object.keys(players).length : 0;
-    playerCountDisplay.innerText = `Players Joined: ${count}/5`;
+  document.querySelector(".join-container").style.display = "none";
+  document.getElementById("startRoundContainer").classList.remove("hidden");
+});
+
+db.ref("players").on("value", (snapshot) => {
+  const players = snapshot.val() || {};
+  document.getElementById("playerCount").innerText = `Players Joined: ${Object.keys(players).length}/5`;
+
+  // Scoreboard update
+  const list = document.getElementById("scoreList");
+  list.innerHTML = "";
+  const sorted = Object.values(players).sort((a, b) => b.score - a.score);
+  sorted.forEach(p => {
+    const li = document.createElement("li");
+    li.textContent = `${p.name}: ${p.score} point${p.score !== 1 ? "s" : ""}`;
+    list.appendChild(li);
   });
+  document.getElementById("scoreboard").classList.remove("hidden");
+});
 
-  // When someone clicks Start Round
-  startRoundBtn.addEventListener("click", () => {
-    db.ref("currentRound").set({
-      startedBy: playerKey,
-      playerName: playerName
-    });
+document.getElementById("startRoundBtn").addEventListener("click", () => {
+  db.ref("currentRound").set({
+    startedBy: playerKey,
+    playerName: playerName
   });
+});
 
-  // Show input form only to round starter
-  db.ref("currentRound").on("value", (snapshot) => {
-    const round = snapshot.val();
-    if (!round) return;
+db.ref("currentRound").on("value", (snapshot) => {
+  const round = snapshot.val();
+  if (!round) return;
 
-    if (round.startedBy === playerKey) {
-      statementInput.classList.remove("hidden");
-      guessingUI.classList.add("hidden");
-    } else {
-      statementInput.classList.add("hidden");
-      guessingUI.classList.remove("hidden");
-    }
-  });
+  const isStarter = round.startedBy === playerKey;
+  document.getElementById("statementInput").classList.toggle("hidden", !isStarter);
+  document.getElementById("guessingUI").classList.toggle("hidden", isStarter);
+});
 
-  // Submit 3 statements
-  statementForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-    const s1 = document.getElementById("s1").value.trim();
-    const s2 = document.getElementById("s2").value.trim();
-    const s3 = document.getElementById("s3").value.trim();
-    const truth = document.querySelector("input[name='truth']:checked").value;
+document.getElementById("statementForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+  const s1 = document.getElementById("s1").value;
+  const s2 = document.getElementById("s2").value;
+  const s3 = document.getElementById("s3").value;
+  const truth = document.querySelector("input[name='truth']:checked")?.value;
 
-    db.ref("statements").set({
-      s1, s2, s3, truth
-    });
+  if (!truth) return alert("Select the true statement");
 
-    statementForm.reset();
-    statementInput.classList.add("hidden");
-  });
+  db.ref("statements").set({ s1, s2, s3, truth });
+  this.reset();
+  document.getElementById("statementInput").classList.add("hidden");
+});
 
-  // Show statements to guess
-  db.ref("statements").on("value", (snapshot) => {
-    const data = snapshot.val();
-    if (!data || playerKey === snapshot?.ref?.parent?.startedBy) return;
+db.ref("statements").on("value", (snapshot) => {
+  const data = snapshot.val();
+  if (!data) return;
 
-    const { s1, s2, s3 } = data;
-    const allStatements = [s1, s2, s3];
+  db.ref("currentRound").once("value").then((snap) => {
+    if (snap.val()?.startedBy === playerKey) return;
 
-    statementsList.innerHTML = "";
-    allStatements.forEach((stmt, index) => {
+    const list = document.getElementById("statementsList");
+    list.innerHTML = "";
+
+    [data.s1, data.s2, data.s3].forEach((stmt, i) => {
       const li = document.createElement("li");
       li.textContent = stmt;
       li.addEventListener("click", () => {
         db.ref("guesses").push({
           player: playerName,
-          guess: index + 1,
+          guess: i + 1,
           time: Date.now()
         });
-        alert("Your guess has been submitted!");
-        guessingUI.classList.add("hidden");
+        document.getElementById("guessingUI").classList.add("hidden");
       });
-      statementsList.appendChild(li);
+      list.appendChild(li);
     });
+  });
+});
+
+db.ref("guesses").on("child_added", (snapshot) => {
+  const guessData = snapshot.val();
+
+  db.ref("statements").once("value").then((snap) => {
+    const truth = snap.val().truth;
+    if (guessData.guess == truth) {
+      db.ref("players").once("value").then((playersSnap) => {
+        const players = playersSnap.val();
+        for (let key in players) {
+          if (players[key].name === guessData.player) {
+            const score = players[key].score || 0;
+            db.ref(`players/${key}/score`).set(score + 1);
+          }
+        }
+      });
+    }
   });
 });
