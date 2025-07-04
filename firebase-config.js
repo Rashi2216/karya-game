@@ -4,8 +4,8 @@ const firebaseConfig = {
   databaseURL: "https://your-app.firebaseio.com",
   projectId: "your-app",
   storageBucket: "your-app.appspot.com",
-  messagingSenderId: "your-msg-id",
-  appId: "your-app-id"
+  messagingSenderId: "XXXX",
+  appId: "XXXX"
 };
 
 firebase.initializeApp(firebaseConfig);
